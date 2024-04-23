@@ -19,6 +19,7 @@ export function UserInput({userInput, onChangeUserInput}) {
                         }
                         value={userInput.initialInvestment}
                         required
+                        min={0}
                     />
                 </p>
                 <p>
@@ -63,6 +64,7 @@ export function UserInput({userInput, onChangeUserInput}) {
                         }
                         value={userInput.duration}
                         required
+                        min={1}
                     />
                 </p>
             </div>
