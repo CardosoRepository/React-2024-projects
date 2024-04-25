@@ -21,27 +21,30 @@ export function App() {
 
     function handleAddProject(projectData) {
         setProjectsState((prevState) => {
+            const projectId = uuidv4();
             const newProject = {
                 ...projectData,
-                id: uuidv4(),
+                id: projectId,
             };
             return {
                 ...prevState,
+                selectedProjectId: undefined,
                 projects: [...prevState.projects, newProject],
             };
         });
     }
 
-    console.log(projectsState);
-
     return (
         <main className="flex flex-col h-screen">
             <div className="my-8"></div>
             <div className="flex h-full gap-8">
-                <Sidebar onStartAddProject={handleStartAddProject} />
+                <Sidebar
+                    onStartAddProject={handleStartAddProject}
+                    projects={projectsState.projects}
+                />
 
                 {projectsState.selectedProjectId === null ? (
-                    <NewProject onAdd={handleAddProject}/>
+                    <NewProject onAdd={handleAddProject} />
                 ) : (
                     <NoProjectSelected
                         onStartAddProject={handleStartAddProject}
