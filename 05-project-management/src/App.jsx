@@ -4,7 +4,7 @@ import { Sidebar } from "./components/Sidebar";
 export function App() {
 
     return (
-        <main className="h-screen my-8">
+        <main className="flex h-screen my-8 gap-8">
             <Sidebar />
             <NewProject />
         </main>
