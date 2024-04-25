@@ -1,26 +1,15 @@
-export function Sidebar({ onClick, projects }) {
+export function Sidebar() {
     return (
-        <div className="flex flex-col gap-8">
-            <h2 className="uppercase text-neutral-300 text-2xl tracking-tight font-semibold text-start pr-6 pt-4">
-                Your projects
+        <aside className="px-8 py-16 bg-stone-900 text-stone-50 w-1/3 md:w-72 rounded-r-xl">
+            <h2 className="mb-8 font-bold uppercase md:text-xl text-stone-200">
+                Your Projects
             </h2>
-            <button
-                className="p-4 w-4/5 rounded-lg text-lg font-semibold text-stone-300 bg-stone-600 hover:bg-stone-500"
-                onClick={() => onClick(true)}
-            >
-                + Add Project
-            </button>
-            <ul>
-                {projects.map((project, index) => {
-                    return (
-                        <li key={index} className="mb-2">
-                            <span className="text-lg font-semibold cursor-pointer text-stone-300 hover:text-stone-400">
-                                List of projects...
-                            </span>
-                        </li>
-                    );
-                })}
-            </ul>
-        </div>
+            <div>
+                <button className="px-4 py-2 text-xs md:text-base rounded-md bg-stone-700 text-stone-400 hover:bg-stone-600 hover:text-stone-100">
+                    + Add Project
+                </button>
+            </div>
+            <ul></ul>
+        </aside>
     );
 }
