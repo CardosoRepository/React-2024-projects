@@ -34,6 +34,15 @@ export function App() {
         });
     }
 
+    function handleCancel() {
+        setProjectsState((prevState) => {
+            return {
+                ...prevState,
+                selectedProjectId: undefined,
+            };
+        });
+    }
+
     return (
         <main className="flex flex-col h-screen">
             <div className="my-8"></div>
@@ -44,7 +53,7 @@ export function App() {
                 />
 
                 {projectsState.selectedProjectId === null ? (
-                    <NewProject onAdd={handleAddProject} />
+                    <NewProject onAdd={handleAddProject} onCancel={handleCancel} />
                 ) : (
                     <NoProjectSelected
                         onStartAddProject={handleStartAddProject}
