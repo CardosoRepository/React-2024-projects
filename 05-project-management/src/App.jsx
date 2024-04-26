@@ -22,6 +22,13 @@ export function App() {
                 title: "Second project",
             },
         ],
+        tasks: [
+            {
+                id: "9c5b4807-c711-43cc-b9ff-fa43a38ac113",
+                projectId: "b89d11db-ef26-4af7-aef1-6764b0cef6f4",
+                text: "Task 1",
+            },
+        ],
     });
 
     const selectedProject = projectsState.projects.find(
@@ -82,6 +89,23 @@ export function App() {
         });
     }
 
+    function handleAddTask(text) {
+        setProjectsState((prevState) => {
+            const taskId = uuidv4();
+            const newTask = {
+                text: text,
+                projectId: prevState.selectedProjectId,
+                id: taskId,
+            };
+            return {
+                ...prevState,
+                tasks: [newTask, ...prevState.tasks],
+            };
+        });
+    }
+
+    function handleDeleteTask() {}
+
     return (
         <main className="flex flex-col h-screen">
             <div className="my-8"></div>
@@ -106,6 +130,9 @@ export function App() {
                     <ProjectDetails
                         project={selectedProject}
                         onDelete={handleDeleteProject}
+                        onAddTask={handleAddTask}
+                        onDeleteTask={handleDeleteTask}
+                        tasks={projectsState.tasks}
                     />
                 )}
             </div>
