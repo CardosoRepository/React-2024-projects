@@ -1,6 +1,14 @@
+import { Header } from "./components/Header";
+import { Quiz } from "./components/Quiz";
+import { Summary } from "./components/Summary";
+
 export function App() {
     return (
-        <p>Quiz App!</p>
+        <>
+            <Header />
+            <Quiz />
+            <Summary />
+        </>
     )
 }
 
