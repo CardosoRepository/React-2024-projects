@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const SETTED_INTERVAL = 10;
 
-export function QuestionTimer({ timeout, onTimeout }) {
+export function QuestionTimer({ timeout, onTimeout, mode }) {
     const [remainingTime, setRemainingTime] = useState(timeout);
 
     useEffect(() => {
@@ -26,5 +26,5 @@ export function QuestionTimer({ timeout, onTimeout }) {
         };
     }, []);
 
-    return <progress id="question-time" max={timeout} value={remainingTime} />;
+    return <progress id="question-time" max={timeout} value={remainingTime} className={mode} />;
 }
