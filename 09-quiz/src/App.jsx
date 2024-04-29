@@ -6,8 +6,9 @@ export function App() {
     return (
         <>
             <Header />
-            <Quiz />
-            <Summary />
+            <main>
+                <Quiz />
+            </main>
         </>
     )
 }
