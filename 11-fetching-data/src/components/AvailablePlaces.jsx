@@ -26,7 +26,6 @@ export function AvailablePlaces({ onSelectPlace }) {
                     setIsFetching(false);
                 });
             } catch (error) {
-                console.log(error);
                 setError({
                     message:
                         error.message ||
