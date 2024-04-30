@@ -5,7 +5,7 @@ export function Error({ title, message, onConfirm }) {
             <p>{message}</p>
             {onConfirm && (
                 <div id="confirmation-actions">
-                    <button className="button" onClick={onConfirm}>Okayy</button>
+                    <button className="button" onClick={onConfirm}>Okay</button>
                 </div>
             )}
         </div>

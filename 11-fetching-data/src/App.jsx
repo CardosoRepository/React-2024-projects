@@ -5,13 +5,14 @@ import { Modal } from "./components/Modal.jsx";
 import { DeleteConfirmation } from "./components/DeleteConfirmation.jsx";
 import logoImg from "./assets/logo.png";
 import { AvailablePlaces } from "./components/AvailablePlaces.jsx";
+import { updateUserPlaces } from "./http.js";
+import { Error } from "./components/Error.jsx";
 
 export function App() {
     const selectedPlace = useRef();
-
     const [userPlaces, setUserPlaces] = useState([]);
-
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [errorUpdatingPlaces, setErrorUpdatingPlaces] = useState();
 
     function handleStartRemovePlace(place) {
         setModalIsOpen(true);
@@ -22,7 +23,7 @@ export function App() {
         setModalIsOpen(false);
     }
 
-    function handleSelectPlace(selectedPlace) {
+    async function handleSelectPlace(selectedPlace) {
         setUserPlaces((prevPickedPlaces) => {
             if (!prevPickedPlaces) {
                 prevPickedPlaces = [];
@@ -34,6 +35,15 @@ export function App() {
             }
             return [selectedPlace, ...prevPickedPlaces];
         });
+
+        try {
+            await updateUserPlaces([selectedPlace, ...userPlaces]);
+        } catch (error) {
+            setUserPlaces(userPlaces);
+            setErrorUpdatingPlaces({
+                message: error.message || "Failed to update places.",
+            });
+        }
     }
 
     const handleRemovePlace = useCallback(async function handleRemovePlace() {
@@ -46,8 +56,21 @@ export function App() {
         setModalIsOpen(false);
     }, []);
 
+    function handleError() {
+        setErrorUpdatingPlaces(null);
+    }
+
     return (
         <>
+            <Modal open={errorUpdatingPlaces} onClose={handleError}>
+                {errorUpdatingPlaces && (
+                    <Error
+                        title="An error occurred!"
+                        message={errorUpdatingPlaces.message}
+                        onConfirm={handleError}
+                    />
+                )}
+            </Modal>
             <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
                 <DeleteConfirmation
                     onCancel={handleStopRemovePlace}
