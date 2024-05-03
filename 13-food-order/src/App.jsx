@@ -1,7 +1,11 @@
+import { Foodmenu } from "./components/Foodmenu";
+import { Header } from "./components/Header";
+
 export function App() {
     return (
         <>
-            <h1>Food order</h1>
+            <Header />
+            <Foodmenu />
         </>
     );
 }
