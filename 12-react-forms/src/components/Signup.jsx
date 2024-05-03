@@ -6,6 +6,8 @@ export function Signup() {
         const acquisitionChannel = formData.getAll("acquisition");
         const data = Object.fromEntries(formData.entries());
         data.acquisition = acquisitionChannel;
+
+        event.target.reset();
     }
 
     return (
