@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Header } from "./components/Header";
 import { Meals } from "./components/Meals";
 import { useFetch } from "./hooks/useFetch";
@@ -29,13 +29,13 @@ export function App() {
             );
 
             if (cartIndex !== -1) {
-                prevCartItems[cartIndex].quantity += 1;
+                prevCartItems[cartIndex].amount += 1;
                 return prevCartItems;
             }
 
             const newCartItem = {
                 ...selectedMeal,
-                quantity: 1,
+                amount: 1,
             };
 
             return [newCartItem, ...prevCartItems];
@@ -45,11 +45,31 @@ export function App() {
     function handleModalOpen(identifier, state) {
         setModalIsOpen(initialModalState);
 
-        state && setModalIsOpen((prevState) => {
-            return {
-                ...prevState,
-                [identifier]: true,
-            };
+        state &&
+            setModalIsOpen((prevState) => {
+                return {
+                    ...prevState,
+                    [identifier]: true,
+                };
+            });
+    }
+
+    function handleChangeItemAmount(itemId, amount) {
+        setCartItems((prevState) => {
+            const updatedCart = [...prevState];
+            const itemIndex = prevState.findIndex((item) => item.id === itemId);
+
+            if (itemIndex === -1) {
+                return prevState;
+            }
+
+            updatedCart[itemIndex].amount += amount;
+
+            if (updatedCart[itemIndex].amount <= 0) {
+                updatedCart.splice(itemIndex, 1);
+            }
+
+            return updatedCart;
         });
     }
 
@@ -61,7 +81,10 @@ export function App() {
                 onSubmit={() => handleModalOpen("checkout", true)}
                 onSubmitText="Go to Checkout"
             >
-                <Cart />
+                <Cart
+                    items={cartItems}
+                    onChangeItemAmount={handleChangeItemAmount}
+                />
             </Modal>
             <Modal
                 open={modalIsOpen.checkout}
