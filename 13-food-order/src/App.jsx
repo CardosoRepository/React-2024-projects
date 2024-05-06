@@ -111,7 +111,7 @@ export function App() {
                 onSubmit={() => handleModalOpen("success", true)}
                 onSubmitText="Submit Order"
             >
-                <Checkout />
+                <Checkout sumAll={cartItems.sumAll}/>
             </Modal>
             <Modal
                 open={modalIsOpen.success}

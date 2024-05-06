@@ -1,7 +1,6 @@
 import { CartItem } from "./CartItem";
 
 export function Cart({ items, onChangeItemAmount }) {
-
     return (
         <div>
             <h2>Your Cart</h2>
@@ -18,7 +17,9 @@ export function Cart({ items, onChangeItemAmount }) {
                     ))}
                 </ul>
             )}
-            {items.sumAll > 0 && <span>${items.sumAll.toFixed(2)}</span>}
+            {items.sumAll > 0 && (
+                <span className="cart-total">${items.sumAll.toFixed(2)}</span>
+            )}
         </div>
     );
 }
