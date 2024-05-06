@@ -1,14 +1,15 @@
 import { CartItem } from "./CartItem";
 
 export function Cart({ items, onChangeItemAmount }) {
+
     return (
         <div>
             <h2>Your Cart</h2>
-            {items?.length === 0 ? (
+            {items.cartItems?.length === 0 ? (
                 <p>Please select an item from the orderbook.</p>
             ) : (
                 <ul>
-                    {items.map((item) => (
+                    {items.cartItems.map((item) => (
                         <CartItem
                             key={item.id}
                             item={item}
@@ -17,6 +18,7 @@ export function Cart({ items, onChangeItemAmount }) {
                     ))}
                 </ul>
             )}
+            {items.sumAll > 0 && <span>${items.sumAll.toFixed(2)}</span>}
         </div>
     );
 }

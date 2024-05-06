@@ -5,7 +5,7 @@ export function Header({ meals, openCartModal }) {
                 <img src="logo.jpg" alt="logo" />
                 <h1>REACTFOOD</h1>
             </div>
-            <button className="text-button" onClick={openCartModal}>Card ({meals.length})</button>
+            <button className="text-button" onClick={openCartModal}>Card ({meals.cartItems.length})</button>
         </div>
     );
 }

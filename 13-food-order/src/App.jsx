@@ -6,6 +6,7 @@ import { fetchMeals } from "./utils/http";
 import { Modal } from "./components/Modal";
 import { SuccessModalContent } from "./components/SuccessModalContent";
 import { Cart } from "./components/Cart";
+import { Checkout } from "./components/Checkout";
 
 const initialModalState = {
     success: false,
@@ -14,7 +15,7 @@ const initialModalState = {
 };
 
 export function App() {
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState({ cartItems: [], sumAll: 0 });
     const [modalIsOpen, setModalIsOpen] = useState(initialModalState);
     const {
         fetchedData: meals,
@@ -24,13 +25,19 @@ export function App() {
 
     function handleSelectMeal(selectedMeal) {
         setCartItems((prevCartItems) => {
-            const cartIndex = prevCartItems.findIndex(
+            const cartIndex = prevCartItems.cartItems.findIndex(
                 (cartItem) => cartItem.id === selectedMeal.id
             );
 
             if (cartIndex !== -1) {
-                prevCartItems[cartIndex].amount += 1;
-                return prevCartItems;
+                const updatedCartItems = [...prevCartItems.cartItems];
+
+                updatedCartItems[cartIndex] = {
+                    ...updatedCartItems[cartIndex],
+                    amount: updatedCartItems[cartIndex].amount + 1,
+                };
+
+                return { ...prevCartItems, cartItems: updatedCartItems };
             }
 
             const newCartItem = {
@@ -38,7 +45,13 @@ export function App() {
                 amount: 1,
             };
 
-            return [newCartItem, ...prevCartItems];
+            return {
+                sumAll: [...prevCartItems.cartItems, newCartItem].reduce(
+                    (acc, crtValue) => acc + crtValue.price * crtValue.amount,
+                    0
+                ),
+                cartItems: [...prevCartItems.cartItems, newCartItem],
+            };
         });
     }
 
@@ -56,8 +69,8 @@ export function App() {
 
     function handleChangeItemAmount(itemId, amount) {
         setCartItems((prevState) => {
-            const updatedCart = [...prevState];
-            const itemIndex = prevState.findIndex((item) => item.id === itemId);
+            const updatedCart = [...prevState.cartItems];
+            const itemIndex = prevState.cartItems.findIndex((item) => item.id === itemId);
 
             if (itemIndex === -1) {
                 return prevState;
@@ -69,12 +82,18 @@ export function App() {
                 updatedCart.splice(itemIndex, 1);
             }
 
-            return updatedCart;
+            const sumAll = updatedCart?.reduce(
+                (acc, crtValue) => acc + crtValue.price * crtValue.amount,
+                0
+            );
+
+            return { cartItems: [...updatedCart], sumAll };
         });
     }
 
     return (
         <>
+            <button onClick={() => console.log(cartItems)}>Show</button>
             <Modal
                 open={modalIsOpen.cart}
                 onClose={() => handleModalOpen("cart", false)}
@@ -92,7 +111,7 @@ export function App() {
                 onSubmit={() => handleModalOpen("success", true)}
                 onSubmitText="Submit Order"
             >
-                <p>Form content</p>
+                <Checkout />
             </Modal>
             <Modal
                 open={modalIsOpen.success}
