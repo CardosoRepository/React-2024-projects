@@ -1,51 +1,59 @@
-export function Checkout({ sumAll }) {
+import { useContext } from "react";
+import { Modal } from "./UI/Modal";
+import { CartContext } from "./store/CartContext";
+import { currencyFormatter } from "../utils/formatting";
+import { Input } from "./UI/Input";
+import { UserProgressContext } from "./store/UserProgressContext";
+import { Button } from "./UI/Button";
+import { sendOrders } from "../utils/http";
+
+export function Checkout() {
+    const cartCtx = useContext(CartContext);
+    const userProgressCtx = useContext(UserProgressContext);
+    const cartTotal = cartCtx.items.reduce(
+        (totalPrice, item) => totalPrice + item.quantity * item.price,
+        0
+    );
+
+    function handleCloseCheckout() {
+        userProgressCtx.hideCheckout();
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
 
         const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
+        const customerData = Object.fromEntries(formData.entries());
+
+        sendOrders(cartCtx.items, customerData);
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Checkout</h2>
-            <p>Total Amount: ${sumAll.toFixed(2)}</p>
-            <div className="control-row">
-                <div className="control">
-                    <label htmlFor="fullName">Full Name</label>
-                    <input type="text" id="fullName" name="fullName" required />
-                </div>
-            </div>
+        <Modal open={userProgressCtx.progress === "checkout"} onClose={handleCloseCheckout}>
+            <form onSubmit={handleSubmit}>
+                <h2>Checkout</h2>
+                <p>Total Amount: {currencyFormatter.format(cartTotal)}</p>
 
-            <div className="control-row">
-                <div className="control">
-                    <label htmlFor="email">E-mail Address</label>
-                    <input type="email" id="email" name="email" required />
-                </div>
-            </div>
+                <Input id="name" type="text" label="Full Name" />
+                <Input id="email" type="email" label="E-mail Address" />
+                <Input id="street" type="text" label="Street" />
 
-            <div className="control-row">
-                <div className="control">
-                    <label htmlFor="fullName">Street</label>
-                    <input type="text" id="fullName" name="fullName" required />
+                <div className="control-row">
+                    <Input id="postal-code" type="text" label="Postal Code" />
+                    <Input id="city" type="text" label="City" />
                 </div>
-            </div>
 
-            <div className="control-row">
-                <div className="control">
-                    <label htmlFor="postalCode">Postal Code</label>
-                    <input
-                        type="number"
-                        id="postalCode"
-                        name="postalCode"
-                        required
-                    />
-                </div>
-                <div className="control">
-                    <label htmlFor="city">City</label>
-                    <input type="text" id="city" name="city" required />
-                </div>
-            </div>
-        </form>
+                <p className="modal-actions">
+                    <Button
+                        type="button"
+                        textOnly
+                        onClick={handleCloseCheckout}
+                    >
+                        Close
+                    </Button>
+                    <Button>Submit Order</Button>
+                </p>
+            </form>
+        </Modal>
     );
 }

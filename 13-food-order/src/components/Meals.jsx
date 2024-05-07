@@ -1,6 +1,6 @@
 import { Mealitem } from "./Mealitem";
 
-export function Meals({ meals, isLoading, error, onSelectMeal }) {
+export function Meals({ meals, isLoading, error }) {
     return (
         <section>
             {error && <p className="text-center">{error.message}</p>}
@@ -16,7 +16,6 @@ export function Meals({ meals, isLoading, error, onSelectMeal }) {
                         <Mealitem
                             key={meal.id}
                             meal={meal}
-                            onSelectMeal={onSelectMeal}
                         />
                     ))}
                 </ul>
