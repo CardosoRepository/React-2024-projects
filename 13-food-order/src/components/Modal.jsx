@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { Button } from "./UI/Button";
 
 export function Modal({ open, children, onClose, onSubmit, onSubmitText }) {
     const dialog = useRef();
@@ -13,12 +14,12 @@ export function Modal({ open, children, onClose, onSubmit, onSubmitText }) {
             {open ? children : null}
             {onSubmit ? (
                 <div className="modal-actions">
-                    <button className="text-button" onClick={onClose}>Close</button>
-                    <button className="button" onClick={onSubmit}>{onSubmitText}</button>
+                    <Button textOnly onClick={onClose}>Close</Button>
+                    <Button onClick={onSubmit}>{onSubmitText}</Button>
                 </div>
             ) : (
                 <div className="modal-actions">
-                    <button className="button " onClick={onClose}>Okay</button>
+                    <Button onClick={onClose}>Okay</Button>
                 </div>
             )}
         </dialog>,
