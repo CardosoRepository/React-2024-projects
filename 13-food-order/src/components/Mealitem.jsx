@@ -1,24 +1,30 @@
-export function Mealitem({ meal, description, onSelectMeal }) {
+import { currencyFormatter } from "../utils/formatting";
+
+export function Mealitem({ meal, onSelectMeal }) {
     return (
         <li className="meal-item">
-            <img src={`http://localhost:3000/${meal.image}`} alt="meal_img" />
-            <h3>{meal.name}</h3>
-            <p className="meal-item-price">{meal.price}</p>
-            <p className="meal-item-description">{meal.description}</p>
-            <div className="meal-item-actions">
-                <button
-                    className="button"
-                    onClick={() =>
-                        onSelectMeal({
-                            id: meal.id,
-                            name: meal.name,
-                            price: meal.price,
-                        })
-                    }
-                >
-                    Add to Cart
-                </button>
-            </div>
+            <article>
+                <img src={`http://localhost:3000/${meal.image}`} alt={meal.name} />
+                <div>
+                    <h3>{meal.name}</h3>
+                    <p className="meal-item-price">{currencyFormatter.format(meal.price)}</p>
+                    <p className="meal-item-description">{meal.description}</p>
+                </div>
+                <p className="meal-item-actions">
+                    <button
+                        className="button"
+                        onClick={() =>
+                            onSelectMeal({
+                                id: meal.id,
+                                name: meal.name,
+                                price: meal.price,
+                            })
+                        }
+                    >
+                        Add to Cart
+                    </button>
+                </p>
+            </article>
         </li>
     );
 }

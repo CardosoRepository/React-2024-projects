@@ -16,7 +16,6 @@ export function Meals({ meals, isLoading, error, onSelectMeal }) {
                         <Mealitem
                             key={meal.id}
                             meal={meal}
-                            description={meal.description}
                             onSelectMeal={onSelectMeal}
                         />
                     ))}

@@ -93,7 +93,6 @@ export function App() {
 
     return (
         <>
-            <button onClick={() => console.log(cartItems)}>Show</button>
             <Modal
                 open={modalIsOpen.cart}
                 onClose={() => handleModalOpen("cart", false)}
