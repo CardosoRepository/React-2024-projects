@@ -1,25 +1,30 @@
 import { Mealitem } from "./Mealitem";
+import { useHttp } from "../hooks/useHttp";
+import { Error } from "./Error";
 
-export function Meals({ meals, isLoading, error }) {
+const requestConfig = {};
+
+export function Meals() {
+    const {
+        data: meals,
+        isLoading,
+        error,
+    } = useHttp("http://localhost:3000/meals", requestConfig, []);
+
+    if (isLoading) {
+        return <p className="text-center">Fetching meals...</p>
+    }
+
+    if (error) {
+        return <Error title="Failed to fetch meals" message={error} />
+    }
     return (
         <section>
-            {error && <p className="text-center">{error.message}</p>}
-            {!error && isLoading && (
-                <p className="text-center">Fetching meals...</p>
-            )}
-            {!error && !isLoading && meals.length === 0 && (
-                <p>There is no meal available.</p>
-            )}
-            {!error && !isLoading && meals.length > 0 && (
-                <ul id="meals">
-                    {meals.map((meal) => (
-                        <Mealitem
-                            key={meal.id}
-                            meal={meal}
-                        />
-                    ))}
-                </ul>
-            )}
+            <ul id="meals">
+                {meals.map((meal) => (
+                    <Mealitem key={meal.id} meal={meal} />
+                ))}
+            </ul>
         </section>
     );
 }
