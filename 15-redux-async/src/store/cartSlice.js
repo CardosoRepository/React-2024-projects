@@ -2,30 +2,25 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const cartSlice = createSlice({
     name: "show-cart",
-    initialState: { showCart: true, cartItems: [] },
+    initialState: { cartItems: [] },
     reducers: {
-        handleShowCart: (state) => {
-            state.showCart = !state.showCart;
-        },
         addItemToCart: (state, action) => {
-            const itemIndex = state.cartItems.findIndex(
-                (item) => item.id === action.payload.item.id
+            const newItem = action.payload.item;
+            const existingItem = state.cartItems.find(
+                (item) => item.id === newItem.id
             );
 
-            if (itemIndex === -1) {
-                const newItem = {
-                    ...action.payload.item,
+            if (!existingItem) {
+                state.cartItems.push({
+                    ...newItem,
                     quantity: 1,
-                    total: action.payload.item.price,
-                };
-                state.cartItems.push(newItem);
+                    total: newItem.price,
+                });
                 return;
             }
 
-            state.cartItems[itemIndex].quantity += 1;
-            state.cartItems[itemIndex].total =
-                state.cartItems[itemIndex].price *
-                state.cartItems[itemIndex].quantity;
+            existingItem.quantity++;
+            existingItem.total = existingItem.price * existingItem.quantity;
         },
         removeItemFromCart: (state, action) => {
             const itemIndex = state.cartItems.findIndex(
@@ -36,19 +31,17 @@ export const cartSlice = createSlice({
                 return;
             }
 
-            if (state.cartItems[itemIndex].quantity === 1) {
+            const existingItem = state.cartItems[itemIndex];
+            if (existingItem.quantity === 1) {
                 state.cartItems.splice(itemIndex, 1);
                 return;
             }
 
-            state.cartItems[itemIndex].quantity -= 1;
-            state.cartItems[itemIndex].total =
-                state.cartItems[itemIndex].price *
-                state.cartItems[itemIndex].quantity;
+            existingItem.quantity--;
+            existingItem.total = existingItem.price * existingItem.quantity;
         },
     },
 });
 
-export const { handleShowCart, addItemToCart, removeItemFromCart } =
-    cartSlice.actions;
+export const { addItemToCart, removeItemFromCart } = cartSlice.actions;
 export default cartSlice.reducer;
