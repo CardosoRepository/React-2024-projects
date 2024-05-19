@@ -1,7 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLoaderData } from "react-router-dom";
 import classes from "./EventsList.module.css";
 
-function EventsList({ events }) {
+function EventsList() {
+    // const { events, isError, message } = useLoaderData(); // Alternative to show error
+    const { events } = useLoaderData();
+
+    // if (isError) {
+    //     return <p>{message}</p>
+    // }
+
     return (
         <div className={classes.events}>
             <h1>All Events</h1>
