@@ -1,3 +1,5 @@
+import { json } from "react-router-dom";
+
 import EventsList from "../components/EventsList";
 
 function EventsPage() {
@@ -11,11 +13,15 @@ export async function loader() {
 
     if (!response.ok) {
         // return {isError: true, message: 'Could not fetch events.'}; // Alternative to return error]
-        throw new Response(
-            JSON.stringify({ message: "Could not fetch events." }),
-            { status: 500 }
-        );
-    }
 
+        // A second alternative to return error data
+        // throw new Response(
+        //     JSON.stringify({ message: "Could not fetch events." }),
+        //     { status: 500 }
+        // );
+
+        throw json({ message: "Could not fetch events." }, { status: 500 });
+    }
+    
     return response;
 }
