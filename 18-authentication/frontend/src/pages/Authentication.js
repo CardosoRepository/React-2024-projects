@@ -21,7 +21,6 @@ export async function action({ request }) {
         password: data.get("password")
     };
     
-    console.log("http://localhost:8080/" + mode);
     const response = await fetch("http://localhost:8080/" + mode, {
         method: "POST",
         headers: {
@@ -41,6 +40,10 @@ export async function action({ request }) {
         );
     }
 
-    // Manage token
+    const resData = await response.json();
+    const token = resData.token;
+
+    localStorage.setItem('token', token);
+
     return redirect('/');
 }
