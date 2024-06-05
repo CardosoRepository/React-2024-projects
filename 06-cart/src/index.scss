@@ -44,10 +44,15 @@ h1 {
     background: #edbf68;
     border: none;
     border-radius: 5px;
+    margin-left: 1rem;
     padding: 0.5rem 1.5rem;
     color: #201e1a;
     font-size: 1.25rem;
     cursor: pointer;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
 }
 
 #main-header button:hover {
