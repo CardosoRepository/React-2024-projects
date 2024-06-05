@@ -1,6 +1,12 @@
 import { Tasks } from "../tasks/Tasks";
 
-export function ProjectDetails({ project, onDelete, onAddTask, onDeleteTask, tasks }) {
+export function ProjectDetails({
+    project,
+    onDelete,
+    onAddTask,
+    onDeleteTask,
+    tasks,
+}) {
     const formattedDate = new Date(project.dueDate).toLocaleDateString(
         "pt-br",
         {

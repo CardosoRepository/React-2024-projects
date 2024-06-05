@@ -10,23 +10,40 @@ export function App() {
         selectedProjectId: undefined,
         projects: [
             {
-                description: "Lorem ipsum",
-                dueDate: "2024-04-25",
                 id: "b89d11db-ef26-4af7-aef1-6764b0cef6f4",
-                title: "Project title",
+                title: "Desenvolvimento de Aplicativo de Gerenciamento de Tarefas",
+                description:
+                    "Um aplicativo para ajudar equipes a gerenciar suas tarefas de forma eficiente.",
+                dueDate: "2024-07-15",
             },
             {
-                description: "...Lorem ipsum...",
-                dueDate: "2024-04-20",
                 id: "2131231231231",
-                title: "Second project",
+                title: "Redesign do Website Corporativo",
+                description:
+                    "Atualização do design e funcionalidades do site corporativo para melhorar a experiência do usuário.",
+                dueDate: "2024-06-30",
             },
         ],
         tasks: [
             {
                 id: "9c5b4807-c711-43cc-b9ff-fa43a38ac113",
                 projectId: "b89d11db-ef26-4af7-aef1-6764b0cef6f4",
-                text: "Task 1",
+                text: "Conduzir pesquisa de mercado para identificar necessidades dos usuários",
+            },
+            {
+                id: "123123123",
+                projectId: "b89d11db-ef26-4af7-aef1-6764b0cef6f4",
+                text: "Desenvolver protótipo de interface do usuário",
+            },
+            {
+                id: "456456456",
+                projectId: "2131231231231",
+                text: "Realizar análise de usabilidade do site atual",
+            },
+            {
+                id: "789789789",
+                projectId: "2131231231231",
+                text: "Criar wireframes para o novo design do site",
             },
         ],
     });
@@ -99,7 +116,7 @@ export function App() {
             };
             return {
                 ...prevState,
-                tasks: [newTask, ...prevState.tasks],
+                tasks: [...prevState.tasks, newTask],
             };
         });
     }
@@ -139,7 +156,7 @@ export function App() {
                         onDelete={handleDeleteProject}
                         onAddTask={handleAddTask}
                         onDeleteTask={handleDeleteTask}
-                        tasks={projectsState.tasks}
+                        tasks={projectsState.tasks.filter(task => task.projectId === projectsState.selectedProjectId)}
                     />
                 )}
             </div>
