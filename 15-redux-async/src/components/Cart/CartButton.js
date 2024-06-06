@@ -8,7 +8,7 @@ const CartButton = (props) => {
 
     return (
         <button className={classes.button} onClick={() => dispatch(handleShowCart())}>
-            <span>My Cart</span>
+            <span>Cart</span>
             <span className={classes.badge}>{cart.length}</span>
         </button>
     );
