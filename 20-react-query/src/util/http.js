@@ -2,19 +2,19 @@ import { QueryClient } from "@tanstack/react-query";
 
 export const queryClient = new QueryClient();
 
-export async function fetchEvents({ signal, searchTerm }) {
-    let url = "http://localhost:3000/events";
-    
-    if (searchTerm) {
-        url += `?search=${searchTerm}`;
-    }
+export async function fetchEvents({ signal, searchTerm, max }) {
+    const url = new URL("http://localhost:3000/events");
+    const params = new URLSearchParams();
 
-    const response = await fetch(url, { signal: signal });
+    if (searchTerm) params.append("search", searchTerm);
+    if (max) params.append("max", max);
+
+    url.search = params.toString();
+
+    const response = await fetch(url, { signal });
 
     if (!response.ok) {
-        const error = new Error(
-            "An error occurred while fetching the events"
-        );
+        const error = new Error("An error occurred while fetching the events");
         error.code = response.status;
         error.info = await response.json();
         throw error;
