@@ -80,8 +80,7 @@ export default function NewChallenge({ onDone }) {
                                 hidden: { opacity: 0, scale: 0.5 },
                                 visible: { 
                                     opacity: 1, 
-                                    scale: 1,
-                                    transition: { type: 'spring' }
+                                    scale: [0.8, 1.3, 1],
                                 },
                             }}
                             key={image.alt}
